@@ -235,18 +235,8 @@ class BicepCurlCounter(private val listener: BicepCurlCounterListener) {
         }
     }
 
-    private fun calculateRIR(currentSpeed: Double): Int {
-        val base = baseSpeed ?: return 4 // Si no hay base, asume RIR alto
-
-        val speedRatio = currentSpeed / base
-        return when {
-            speedRatio >= 1 -> 4
-            speedRatio > 0.9 -> 3 // Velocidad cae menos del 10%, RIR 3
-            speedRatio > 0.8 -> 2 // Velocidad cae entre 10-20%, RIR 2
-            speedRatio > 0.7 -> 1 // Velocidad cae entre 20-30%, RIR 1
-            else -> 0          // Velocidad cae más del 30%, RIR 0
-        }
-    }
+    private fun calculateRIR(currentSpeed: Double): Int =
+        ExerciseMath.estimateRir(currentSpeed, baseSpeed)
 
     fun calculateAngle(shoulder: PointF, elbow: PointF, wrist: PointF): Double {
         val angle = Math.toDegrees(

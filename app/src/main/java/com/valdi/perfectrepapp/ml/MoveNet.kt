@@ -35,7 +35,7 @@ class MoveNet(private val interpreter: Interpreter, private var gpuDelegate: Gpu
         private const val BODY_EXPANSION_RATIO = 1.2f
 
         // TFLite file names.
-        private const val LIGHTNING_FILENAME = "movenet_thunder_int8.tflite"
+        private const val LIGHTNING_FILENAME = "movenet_thunder_int8.tflite" // modelo rápido (int8)
         private const val THUNDER_FILENAME = "movenet_thunder_float16.tflite"
 
         // allow specifying model type.
