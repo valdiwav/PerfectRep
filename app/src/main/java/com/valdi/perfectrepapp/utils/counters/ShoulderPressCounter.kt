@@ -207,26 +207,11 @@ class ShoulderPressCounter(private val listener: ShoulderPressCounterListener) {
         }
     }
 
-    private fun calculateRIR(currentSpeed: Double): Int {
-        val base = baseSpeed ?: return 4
-        val speedRatio = currentSpeed / base
+    private fun calculateRIR(currentSpeed: Double): Int =
+        ExerciseMath.estimateRir(currentSpeed, baseSpeed)
 
-        return when {
-            speedRatio >= 1 -> 4
-            speedRatio > 0.9 -> 3 // Velocidad cae menos del 10%, RIR 3
-            speedRatio > 0.8 -> 2 // Velocidad cae entre 10-20%, RIR 2
-            speedRatio > 0.7 -> 1 // Velocidad cae entre 20-30%, RIR 1
-            else -> 0          // Velocidad cae más del 30%, RIR 0
-        }
-    }
-
-    private fun calculateAngle(p1: Pair<Float, Float>, p2: Pair<Float, Float>, p3: Pair<Float, Float>): Double {
-        val angle = Math.toDegrees(
-            atan2((p3.second - p2.second).toDouble(), (p3.first - p2.first).toDouble()) -
-                    atan2((p1.second - p2.second).toDouble(), (p1.first - p2.first).toDouble())
-        )
-        return abs(angle).let { if (it > 180) 360 - it else it }
-    }
+    private fun calculateAngle(p1: Pair<Float, Float>, p2: Pair<Float, Float>, p3: Pair<Float, Float>): Double =
+        ExerciseMath.angleAt(p1, p2, p3)
 
     private fun allKeyPointsVisible(person: Person, requiredPoints: List<Int>): Boolean {
         for (index in requiredPoints) {
